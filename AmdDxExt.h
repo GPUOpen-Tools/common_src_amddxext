@@ -5,7 +5,6 @@
 *
 ***************************************************************************************************
 */
-
 /**
 ***************************************************************************************************
 * @file  amddxext.h
@@ -29,7 +28,7 @@ enum AmdDxExtPrimitiveTopology
     // 6 is reserved for legacy triangle fans
     AmdDxExtPrimitiveTopology_ExtQuadList        = 7,  // No D3D10 equivalent
     AmdDxExtPrimitiveTopology_ExtPatch           = 8,  // No D3D10 equivalent
-    // 9 is unused
+    AmdDxExtPrimitiveTopology_ExtScreenRectList  = 9,  // No D3D10 equivalent
     AmdDxExtPrimitiveTopology_LineListAdj        = 10, // D3D10 LINELIST_ADJ
     AmdDxExtPrimitiveTopology_LineStripAdj       = 11, // D3D10 LINESTRIP_ADJ
     AmdDxExtPrimitiveTopology_TriangleListAdj    = 12, // D3D10 TRIANGLELIST_ADJ
@@ -38,5 +37,9 @@ enum AmdDxExtPrimitiveTopology
 };
 
 
+enum AmdDxExtFeatureToken
+{
+    AmdDxExtFeature_ScreenRectSupport           = 1, // Screen Rect supported - data is BOOL
+};
 
 #endif // _AMDDXEXT_H_

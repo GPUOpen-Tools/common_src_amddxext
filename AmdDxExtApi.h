@@ -5,7 +5,6 @@
 *
 ***************************************************************************************************
 */
-
 /**
 ***************************************************************************************************
 * @file  amddxextapi.h
@@ -67,6 +66,10 @@ public:
                                                     BOOL singleSample) = 0;
     virtual HRESULT             SetSingleSampleRead11(ID3D11Resource* pResource,
                                                       BOOL singleSample) = 0;
+
+    // Supported in version 9.0 and above.
+    virtual HRESULT QueryFeatureSupport(unsigned int featureToken,
+                                        void* pData, unsigned int dataSize) = 0;
 
 protected:
     IAmdDxExt() {};
