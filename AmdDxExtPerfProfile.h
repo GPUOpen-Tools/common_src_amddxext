@@ -229,6 +229,13 @@ enum PE_BLOCK_ID : UINT
     PE_BLOCK_WD,
     PE_BLOCK_TCS,
     PE_BLOCK_MAX_CI,
+    PE_BLOCK_MCVML2,
+    PE_BLOCK_ATC,
+    PE_BLOCK_ATCL2,
+    PE_BLOCK_RPB,
+    PE_BLOCK_EA,
+    PE_BLOCK_RMI,
+    PE_BLOCK_MAX_GFX9,
 };
 
 // Counter parameters

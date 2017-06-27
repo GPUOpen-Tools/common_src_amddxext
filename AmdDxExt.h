@@ -40,6 +40,7 @@ enum AmdDxExtPrimitiveTopology
 enum AmdDxExtFeatureToken
 {
     AmdDxExtFeature_ScreenRectSupport           = 1, // Screen Rect supported - data is BOOL
+    AmdDxExtFeature_DeviceHp3d                  = 2, // HP3D support
 };
 
 #endif // _AMDDXEXT_H_
