@@ -121,6 +121,7 @@ enum class AmdExtGpaSampleType : UINT32
     Trace      = 0x1,  ///< A GPU memory buffer will be filled with hw-specific SQ thread trace and/or streaming
                        ///  performance counter data.  Trace samples may span multiple command buffers.
     Timing     = 0x2,  ///< Two 64-bit results will be recorded in beginTs and endTs to gather timestamp data.
+    Query      = 0x3,  ///< A set of 11 pipeline stats will be collected.
     None       = 0xf,  ///< No profile will be done.
 };
 
@@ -203,7 +204,8 @@ struct AmdExtGpaSampleConfig
             };
             UINT32 u32All;                            ///< Bit flags packed as uint32.
         } flags;                                      ///< Bit flags controlling SQTT samples.
-
+        UINT32 seMask;                                ///< Mask that determines which specific SEs to run thread trace on.
+                                                      ///  If 0, all SEs are enabled
         UINT64 gpuMemoryLimit;                        ///< Maximum amount of GPU memory in bytes this sample can allocate for the SQTT
                                                       ///  buffer.  If 0, allocate maximum size to prevent dropping tokens toward the
                                                       ///  end of the sample.
@@ -216,6 +218,7 @@ struct AmdExtGpaSampleConfig
         AmdExtHwPipePoint postSample;  ///< The point in the GPU pipeline where the end timestamp should take place.
     } timing;   ///< Timestamp configuration. (only valid for timing samples)
 };
+
 
 enum class AmdExtDeviceClockMode : UINT32
 {
