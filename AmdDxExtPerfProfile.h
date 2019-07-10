@@ -5,7 +5,6 @@
 *
 ***************************************************************************************************
 */
-
 /**
 ***************************************************************************************************
 * @file  amddxextperfprofile.h
@@ -58,6 +57,8 @@ enum PE_TRACE_TYPE
 enum PE_TRACE_MARKER_DATA_TYPE
 {
     PE_THREAD_TRACE_USER_DATA   = 0,
+    PE_THREAD_TRACE_USER_DATA_3 = 0,
+    PE_THREAD_TRACE_USER_DATA_2 = 1,
 };
 
 // Trace buffer parameters
@@ -175,9 +176,13 @@ enum PE_EXPERIMENT_PARAM
     PE_PARAM_GLOBAL_SAMPLING                = 0,
     PE_PARAM_CACHE_FLUSH_ON_PERF_COUNTER    = 1,
     PE_PARAM_SAMPLE_INTERNAL_OPERATIONS     = 2,
+    PE_PARAM_RGP_CLIENT                     = 3,
 };
 
 // Shader engine parameters
+// From GFX7 forward, PE_PARAM_SQ_SHADER_MASK enum value is applied to TA/TD/TCP/TCC/TCA
+// counters as well as SQ counters.
+// Before GFX7, PE_PARAM_SQ_SHADER_MASK enum value is only applied to SQ counters.
 enum PE_ENGINE_PARAM
 {
     PE_PARAM_SQ_SHADER_MASK                 = 0,
@@ -236,6 +241,20 @@ enum PE_BLOCK_ID : UINT
     PE_BLOCK_EA,
     PE_BLOCK_RMI,
     PE_BLOCK_MAX_GFX9,
+    PE_BLOCK_CHA,
+    PE_BLOCK_CHC,
+    PE_BLOCK_CHCG,
+    PE_BLOCK_GCR,
+    PE_BLOCK_GE,
+    PE_BLOCK_GL1A,
+    PE_BLOCK_GL1C,
+    PE_BLOCK_GL1CG,
+    PE_BLOCK_GL2A,
+    PE_BLOCK_GL2C,
+    PE_BLOCK_GUS,
+    PE_BLOCK_PH,
+    PE_BLOCK_UTCL1,
+    PE_BLOCK_MAX_GFX10,
 };
 
 // Counter parameters
@@ -245,6 +264,33 @@ enum PE_COUNTER_PARAM
     PE_COUNTER_SQ_SIMD_MASK  = 1000,
     PE_COUNTER_SQ_SQC_BANK_MASK_CI,
     PE_COUNTER_SQ_SQC_CLIENT_MASK_CI,
+};
+
+enum PE_CLOCK_MODE
+{
+    // Device clocks and other power settings are restored to default.
+    PE_CLOCK_MODE_DEFAULT = 0,
+    // Queries the current device clock ratios. Leaves the clock mode of the device unchanged.
+    PE_CLOCK_MODE_QUERY = 1,
+    // Scale down from peak ratio. Clocks are set to a constant amount which is
+    // known to be power and thermal sustainable. The engine/memory clock ratio
+    // will be kept the same as much as possible.
+    PE_CLOCK_MODE_PROFILING = 2,
+    // Memory clock is set to the lowest available level. Engine clock is set to
+    // thermal and power sustainable level.
+    PE_CLOCK_MODE_MIN_MEMORY = 3,
+    // Engine clock is set to the lowest available level. Memory clock is set to
+    // thermal and power sustainable level.
+    PE_CLOCK_MODE_MIN_ENGINE = 4,
+    // Clocks set to maximum when possible. Fan set to maximum. Note: Under power
+    // and thermal constraints device will clock down.
+    PE_CLOCK_MODE_PEAK = 5,
+};
+
+struct PE_SET_CLOCK_MODE_OUTPUT
+{
+    float memoryClockRatioToPeak;  ///< Ratio of current mem clock to peak clock
+    float engineClockRatioToPeak;  ///< Ratio of current gpu core clock to peak clock
 };
 
 struct PE_CAPS_INFO

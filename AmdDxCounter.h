@@ -5,7 +5,6 @@
 *
 ***************************************************************************************************
 */
-
 /**
 ***************************************************************************************************
 * @file  amddxcounter.h
@@ -19,11 +18,11 @@
 #define _AMDDXCOUNTER_H_
 
 #ifdef D3D10_0_DDI_BUILD_VERSION
-    static const UINT AMDDeviceDependentSWCounterIdStart = D3D10DDI_COUNTER_DEVICE_DEPENDENT_0;
+static const UINT AMDDeviceDependentSWCounterIdStart = D3D10DDI_COUNTER_DEVICE_DEPENDENT_0;
 #else
-    static const UINT AMDDeviceDependentSWCounterIdStart = D3D10_COUNTER_DEVICE_DEPENDENT_0;
+static const UINT AMDDeviceDependentSWCounterIdStart = D3D10_COUNTER_DEVICE_DEPENDENT_0;
 #endif
-static const UINT AMDDevicecDependentHWCounterIdOffset = 0x20000000;
+static const UINT AMDDevicecDependentHWCounterIdOffset= 0x20000000;
 static const UINT AMDDeviceDependentHWCounterIdStart = AMDDeviceDependentSWCounterIdStart |
                                                        AMDDevicecDependentHWCounterIdOffset;
 
@@ -40,9 +39,9 @@ typedef union
         UINT typeSpecific      : 24;   // The definition of these is counter-type dependent
         UINT counterType       : 5;    // Select the type of counter
         UINT isHWDeviceCounter : 1;    // Set if this is a hardware counter.
-        // Cleared if this is a software (driver) counter
+                                       // Cleared if this is a software (driver) counter
         UINT isDeviceCounter   : 1;    // The DDI requires this field to be 1 for a counter to be
-        // interpreted as a device-dependent counter
+                                       // interpreted as a device-dependent counter
         UINT reserved          : 1;    // Reserved bit
     } bitfields, bits;
 

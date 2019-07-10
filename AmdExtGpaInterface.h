@@ -53,6 +53,20 @@ enum class AmdExtGpuBlock : UINT32
     Ea,
     Rpb,
     Rmi,
+    Umcch,
+    Ge,
+    Gl1a,
+    Gl1c,
+    Gl1cg,
+    Gl2a,
+    Gl2c,
+    Cha,
+    Chc,
+    Chcg,
+    Gus,
+    Gcr,
+    Ph,
+    Utcl1,
     Count
 };
 

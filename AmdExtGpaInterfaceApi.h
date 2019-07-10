@@ -90,7 +90,7 @@ interface __declspec(uuid("16AE5721-7ED4-4292-9B50-B976DF1347FE"))
 IAmdExtGpaInterface : public IUnknown
 {
 public:
-    /// Queries for GPU blocks and available counters
+    /// Queries for GPU blocks and available counters. Does not return data for counters after AmdExtGpuBlock::Rmi
     virtual HRESULT GetPerfExperimentProperties(AmdExtPerfExperimentProperties* pProperties) const = 0;
     /// Ability to control clocks for profiling
     virtual VOID SetClockMode(const AmdExtDeviceClockMode clockModeInput,
@@ -101,4 +101,12 @@ public:
     virtual IAmdExtGpaSession* CopyGpaSession(const IAmdExtGpaSession* pSrc) = 0;
     /// Destroys and frees memory allocated for the gpa session
     virtual void DestroyGpaSession(IAmdExtGpaSession* pExtGpaSession) = 0;
+};
+
+interface __declspec(uuid("802984F4-E529-4A4E-AC4D-A32B1197B55E"))
+IAmdExtGpaInterface2 : public IAmdExtGpaInterface
+{
+public:
+    /// Queries for GPU blocks and available counters. Pass AmdExtGpuBlock::Count for blockCount
+    virtual HRESULT GetPerfExperimentProperties2(AmdExtPerfExperimentProperties* pProperties, AmdExtGpuBlock blockCount) const = 0;
 };

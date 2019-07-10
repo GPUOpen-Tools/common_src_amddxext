@@ -29,10 +29,10 @@ interface ID3D11Resource;
 // App must use GetProcAddress, etc. to retrive this exported function
 // The associated typedef provides a convenient way to define the function pointer
 HRESULT __cdecl AmdDxExtCreate(ID3D10Device* pDevice, IAmdDxExt** ppExt);
-typedef HRESULT(__cdecl* PFNAmdDxExtCreate)(ID3D10Device* pDevice, IAmdDxExt** ppExt);
+typedef HRESULT (__cdecl *PFNAmdDxExtCreate)(ID3D10Device* pDevice, IAmdDxExt** ppExt);
 
 HRESULT __cdecl AmdDxExtCreate11(ID3D11Device* pDevice, IAmdDxExt** ppExt);
-typedef HRESULT(__cdecl* PFNAmdDxExtCreate11)(ID3D11Device* pDevice, IAmdDxExt** ppExt);
+typedef HRESULT (__cdecl *PFNAmdDxExtCreate11)(ID3D11Device* pDevice, IAmdDxExt** ppExt);
 
 // Extension version information
 struct AmdDxExtVersion
@@ -68,8 +68,15 @@ public:
                                                       BOOL singleSample) = 0;
 
     // Supported in version 9.0 and above.
-    virtual HRESULT QueryFeatureSupport(unsigned int featureToken,
-                                        void* pData, unsigned int dataSize) = 0;
+    virtual HRESULT             QueryFeatureSupport(unsigned int featureToken,
+                                                    void* pData, unsigned int dataSize) = 0;
+
+    // Supported in version 9.1 and above.
+    // Only works if QueryFeatureSupport() says AmdDxExtFeature_DeviceCtxSupport is true.
+    virtual HRESULT             IaSetPrimitiveTopologyCtx(unsigned int topology,
+                                                          ID3D11DeviceContext* pCtx) = 0;
+    virtual HRESULT             IaGetPrimitiveTopologyCtx(AmdDxExtPrimitiveTopology* pExtTopology,
+                                                          ID3D11DeviceContext* pCtx) = 0;
 
 protected:
     IAmdDxExt() {};

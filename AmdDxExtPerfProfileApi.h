@@ -54,6 +54,9 @@ public:
 
     // Test if performance experiments can be performed on the given GPU
     virtual PE_RESULT IsGpuProfileable(UINT gpuId, BOOL* pProfileable) = 0;
+
+    // Set the clock mode to the input type and return the current clock rates
+    virtual PE_RESULT SetClockMode(PE_CLOCK_MODE mode, PE_SET_CLOCK_MODE_OUTPUT* pOutput) = 0;
 };
 
 
@@ -158,6 +161,10 @@ public:
     // Basic constructor
     IAmdDxExtThreadTrace() {};
     virtual ~IAmdDxExtThreadTrace() = 0 {};
+
+    // Method to get maximum allocated buffer size for thread trace buffer
+    virtual unsigned long long GetMaxThreadTraceBufferSize() = 0;
+
 };
 
 
@@ -237,6 +244,9 @@ public:
 
     // Insert thread trace markers.
     virtual void InsertThreadTraceMarker() = 0;
+
+    // Get the count of shader engine
+    virtual unsigned int GetNumShaderEngines() = 0;
 };
 
 /**
