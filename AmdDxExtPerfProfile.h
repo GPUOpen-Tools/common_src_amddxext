@@ -111,14 +111,14 @@ enum PE_TT_TOKEN_MASK_SI
 // PE_PARAM_TT_REG_MASK selects
 enum PE_TT_REG_MASK_SI
 {
-    PE_TT_REG_MASK_EVENT_SI      = 0x00000001,
-    PE_TT_REG_MASK_DRAW_SI       = 0x00000002,
-    PE_TT_REG_MASK_DISPATCH_SI   = 0x00000004,
-    PE_TT_REG_MASK_USERDATA_SI   = 0x00000008,
-    PE_TT_REG_MASK_GFXDEC_SI     = 0x00000020,
-    PE_TT_REG_MASK_SHDEC_SI      = 0x00000040,
-    PE_TT_REG_MASK_OTHER_SI      = 0x00000080,
-    PE_TT_REG_MASK_ALL_SI        = 0x000000ff,
+   PE_TT_REG_MASK_EVENT_SI      = 0x00000001,
+   PE_TT_REG_MASK_DRAW_SI       = 0x00000002,
+   PE_TT_REG_MASK_DISPATCH_SI   = 0x00000004,
+   PE_TT_REG_MASK_USERDATA_SI   = 0x00000008,
+   PE_TT_REG_MASK_GFXDEC_SI     = 0x00000020,
+   PE_TT_REG_MASK_SHDEC_SI      = 0x00000040,
+   PE_TT_REG_MASK_OTHER_SI      = 0x00000080,
+   PE_TT_REG_MASK_ALL_SI        = 0x000000ff,
 };
 
 // PE_PARAM_TT_VM_ID_MASK selects
@@ -246,6 +246,7 @@ enum PE_BLOCK_ID : UINT
     PE_BLOCK_CHCG,
     PE_BLOCK_GCR,
     PE_BLOCK_GE,
+    PE_BLOCK_GE1 = PE_BLOCK_GE,
     PE_BLOCK_GL1A,
     PE_BLOCK_GL1C,
     PE_BLOCK_GL1CG,
@@ -255,6 +256,10 @@ enum PE_BLOCK_ID : UINT
     PE_BLOCK_PH,
     PE_BLOCK_UTCL1,
     PE_BLOCK_MAX_GFX10,
+    PE_BLOCK_GE2_DIST,
+    PE_BLOCK_GE2_SE,
+    PE_BLOCK_DF_MALL,
+    PE_BLOCK_MAX_GFX10_3,
 };
 
 // Counter parameters
@@ -264,33 +269,6 @@ enum PE_COUNTER_PARAM
     PE_COUNTER_SQ_SIMD_MASK  = 1000,
     PE_COUNTER_SQ_SQC_BANK_MASK_CI,
     PE_COUNTER_SQ_SQC_CLIENT_MASK_CI,
-};
-
-enum PE_CLOCK_MODE
-{
-    // Device clocks and other power settings are restored to default.
-    PE_CLOCK_MODE_DEFAULT = 0,
-    // Queries the current device clock ratios. Leaves the clock mode of the device unchanged.
-    PE_CLOCK_MODE_QUERY = 1,
-    // Scale down from peak ratio. Clocks are set to a constant amount which is
-    // known to be power and thermal sustainable. The engine/memory clock ratio
-    // will be kept the same as much as possible.
-    PE_CLOCK_MODE_PROFILING = 2,
-    // Memory clock is set to the lowest available level. Engine clock is set to
-    // thermal and power sustainable level.
-    PE_CLOCK_MODE_MIN_MEMORY = 3,
-    // Engine clock is set to the lowest available level. Memory clock is set to
-    // thermal and power sustainable level.
-    PE_CLOCK_MODE_MIN_ENGINE = 4,
-    // Clocks set to maximum when possible. Fan set to maximum. Note: Under power
-    // and thermal constraints device will clock down.
-    PE_CLOCK_MODE_PEAK = 5,
-};
-
-struct PE_SET_CLOCK_MODE_OUTPUT
-{
-    float memoryClockRatioToPeak;  ///< Ratio of current mem clock to peak clock
-    float engineClockRatioToPeak;  ///< Ratio of current gpu core clock to peak clock
 };
 
 struct PE_CAPS_INFO
@@ -332,6 +310,43 @@ struct PE_BUFFER_LOCK_DATA
     UINT dataSizeEstimate;
     // Buffer data pointer
     void* pData;
+};
+
+enum PE_CLOCK_MODE
+{
+    // Device clocks and other power settings are restored to default.
+    PE_CLOCK_MODE_DEFAULT       = 0,
+    // Queries the current device clock ratios. Leaves the clock mode of the device unchanged.
+    PE_CLOCK_MODE_QUERY         = 1,
+    // Scale down from peak ratio. Clocks are set to a constant amount which is
+    // known to be power and thermal sustainable. The engine/memory clock ratio
+    // will be kept the same as much as possible.
+    PE_CLOCK_MODE_PROFILING     = 2,
+    // Memory clock is set to the lowest available level. Engine clock is set to
+    // thermal and power sustainable level.
+    PE_CLOCK_MODE_MIN_MEMORY    = 3,
+    // Engine clock is set to the lowest available level. Memory clock is set to
+    // thermal and power sustainable level.
+    PE_CLOCK_MODE_MIN_ENGINE    = 4,
+    // Clocks set to maximum when possible. Fan set to maximum. Note: Under power
+    // and thermal constraints device will clock down.
+    PE_CLOCK_MODE_PEAK          = 5,
+};
+
+struct PE_SET_CLOCK_MODE_OUTPUT
+{
+    float memoryClockRatioToPeak;  ///< Ratio of current mem clock to peak clock
+    float engineClockRatioToPeak;  ///< Ratio of current gpu core clock to peak clock
+};
+
+union DfCounterEventId
+{
+    struct
+    {
+        unsigned int eventId    : 16;   ///< Event ID for DF counters
+        unsigned int unitMask   : 16;   ///< Unit mask for DF counters
+    } bits;
+    unsigned int u32All;
 };
 
 #endif // _AMDDXPERF_H_

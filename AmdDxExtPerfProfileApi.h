@@ -41,7 +41,7 @@ public:
 
     // Get information about profiling counter for a particular HW block.
     virtual PE_RESULT GetBlockCounterInfo(UINT gpuId, PE_BLOCK_ID block,
-                                          PE_BLOCK_COUNTER_INFO* pBlockInfo) = 0;
+        PE_BLOCK_COUNTER_INFO* pBlockInfo) = 0;
 
     /// Create empty performance experiment container.
     virtual IAmdDxExtPerfExperiment* CreateExperiment() = 0;
@@ -181,7 +181,7 @@ public:
 
     // Add a trace counter to the counter stream trace.
     virtual PE_RESULT AddCounter(PE_BLOCK_ID block, UINT instanceId, UINT eventId,
-                                 IAmdDxExtStreamingCounter** ppCounter) = 0;
+        IAmdDxExtStreamingCounter** ppCounter) = 0;
 
     // Get the number of bytes of data per output cycle.
     virtual UINT GetByteStride() = 0;
@@ -208,11 +208,11 @@ public:
 
     // Add trace to experiment
     virtual PE_RESULT AddTrace(UINT engineId, PE_TRACE_TYPE traceType,
-                               IAmdDxExtTrace** ppTrace) = 0;
+        IAmdDxExtTrace** ppTrace) = 0;
 
     // Add counter to experiment
     virtual PE_RESULT AddCounter(PE_BLOCK_ID blockId, UINT instanceId, UINT eventId,
-                                 IAmdDxExtPerfCounter** ppCounter) = 0;
+        IAmdDxExtPerfCounter** ppCounter) = 0;
 
     // Build and finalize experiment
     virtual PE_RESULT Finalize() = 0;
@@ -248,6 +248,7 @@ public:
     // Get the count of shader engine
     virtual unsigned int GetNumShaderEngines() = 0;
 };
+
 
 /**
 ***************************************************************************************************

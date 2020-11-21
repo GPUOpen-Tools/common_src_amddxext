@@ -57,13 +57,15 @@ struct AmdDxASICInfoHWInfo
     UINT        numShaderArraysPerSE;       ///< Number of shader arrays per shader engine
     UINT        totalCU;                    ///< Total compute unit
     UINT        numSimdsPerCU;              ///< Number of SIMDs per CU
-    UINT        reserved[512];              ///< Reserved for further extensions
+    UINT        asicName;                   ///< ASIC name enumeration (internal driver-defined)
+    UINT        waveSlotsPerSimd;           ///< Number of wave slots per SIMD
+    UINT        reserved[510];              ///< Reserved for further extensions
 };
 
 /**
 ***************************************************************************************************
 * @brief
-*    AmdDxASICInfo struct - Structure filled by driver to provide video graphics hardware and
+*    AmdDxASICInfo struct - Structure filled by driver to provide video graphics harware and
 *    driver info.
 *
 ***************************************************************************************************
