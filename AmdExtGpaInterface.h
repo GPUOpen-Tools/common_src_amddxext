@@ -58,8 +58,8 @@ enum class AmdExtGpuBlock : UINT32
     Gl1a   = 0x22,
     Gl1c   = 0x23,
     Gl1cg  = 0x24,
-    Gl2a   = 0x25,
-    Gl2c   = 0x26,
+    Gl2a   = 0x25, // TCA is used in Gfx9, and changed to GL2A in Gfx10
+    Gl2c   = 0x26, // TCC is used in Gfx9, and changed to GL2C in Gfx10
     Cha    = 0x27,
     Chc    = 0x28,
     Chcg   = 0x29,
